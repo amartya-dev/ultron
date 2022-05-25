@@ -1,0 +1,31 @@
+{
+    "[python]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      },
+      "editor.formatOnSave": true,
+      "editor.formatOnSaveMode": "file",
+    },
+    "python.sortImports.args": [
+      "--profile",
+      "black",
+      "--known-local-folder",
+      "src"
+    ],
+    "python.formatting.provider": "black",
+    "python.formatting.autopep8Args": [
+      "--aggressive",
+      "--in-place",
+      "--max-line-length",
+      "79",
+      "--experimental"
+    ],
+    "python.formatting.blackArgs": [
+      "--line-length",
+      "79"
+    ],
+    "search.exclude": {
+      "**/.git": true,
+      "**/venv": true
+    }
+}
