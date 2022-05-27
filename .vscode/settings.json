@@ -17,12 +17,13 @@
       "--aggressive",
       "--in-place",
       "--max-line-length",
-      "79",
+      "72",
       "--experimental"
     ],
     "python.formatting.blackArgs": [
       "--line-length",
-      "79"
+      "72",
+      "--experimental-string-processing"
     ],
     "search.exclude": {
       "**/.git": true,

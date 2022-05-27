@@ -1,26 +1,36 @@
+import importlib
 import os
 
-import yaml
-from cookiecutter.main import cookiecutter
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
+from src.config import app_config
+from src.logger import log
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=app_config.allowed_origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-class Template(BaseModel):
-    url: str
+log.info("Loading routes ...")
 
-
-class CookieCutterSettings(BaseModel):
-    github_repository_name: str
-    app_name: str
-    email: str
-    description: str
-    github_username: str
-
-
-@app.post("/clone_via_cookiecutter")
-def clone_via_cookiecutter(template: Template, settings: CookieCutterSettings):
-    cookiecutter(template.url, extra_context=settings.dict(), no_input=True)
-    return {"template": template, "settings": settings}
+# This will automatically scan for new routers and load them
+current_dir = os.getcwd()
+for sub_dir, dirs, files in os.walk(
+    os.path.join(current_dir, "src/routers")
+):
+    for file in files:
+        if file.endswith(".py"):
+            log.info(f"Loading {file} ...")
+            full_path = (
+                os.path.join(sub_dir, file)
+                .replace(".py", "")
+                .replace(current_dir, "")
+                .replace("/", ".")
+            )[1:]
+            module = importlib.import_module(full_path)
+            app.include_router(module.router)
