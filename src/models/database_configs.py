@@ -19,36 +19,33 @@ class AvailableDatabases(Enum):
     oracle = "Oracle"
 
 
-class UserNamePasswordDatabaseConfig(BaseModel):
+class PostgresConfig(BaseModel):
     """
-    This class will be used to store the configs for the
-    username and password database.
+    This class will be used to store the configs for the postgres database.
     """
 
+    db_type: AvailableDatabases = AvailableDatabases.postgres
     host: str
     port: int
     username: str
     password: str
     database: str
 
-
-class PostgresConfig(UserNamePasswordDatabaseConfig):
-    """
-    This class will be used to store the configs for the postgres database.
-    """
-
-    db_type: AvailableDatabases = AvailableDatabases.postgres
-
     def get_db_url(self):
         return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
-class MySQLConfig(UserNamePasswordDatabaseConfig):
+class MySQLConfig(BaseModel):
     """
     This class will be used to store the configs for the mysql database.
     """
 
     db_type: AvailableDatabases = AvailableDatabases.mysql
+    host: str
+    port: int
+    username: str
+    password: str
+    database: str
 
     def get_db_url(self):
         return f"mysql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
@@ -68,23 +65,33 @@ class SQLiteConfig(BaseModel):
         return f"sqlite:///{self.database}"
 
 
-class MariaDBConfig(UserNamePasswordDatabaseConfig):
+class MariaDBConfig(BaseModel):
     """
     This class will be used to store the configs for the mariadb database.
     """
 
     db_type: AvailableDatabases = AvailableDatabases.mariadb
+    host: str
+    port: int
+    username: str
+    password: str
+    database: str
 
     def get_db_url(self):
         return f"mysql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
-class OracleConfig(UserNamePasswordDatabaseConfig):
+class OracleConfig(BaseModel):
     """
     This class will be used to store the configs for the oracle database.
     """
 
     db_type: AvailableDatabases = AvailableDatabases.oracle
+    host: str
+    port: int
+    username: str
+    password: str
+    database: str
 
     def get_db_url(self):
         return f"oracle://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"

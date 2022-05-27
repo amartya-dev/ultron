@@ -67,7 +67,6 @@ class DjangoTemplate(BaseModel):
     prod_db_details: _supported_databases
 
     def get_template_configs(self):
-        print(self.prod_db_details)
         return {
             "template_url": self.template_url,
             "app_name": self.app_name,
