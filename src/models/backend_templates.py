@@ -59,20 +59,19 @@ class DjangoTemplate(BaseModel):
         SQLiteConfig,
         OracleConfig,
     ]
-    _db_fields = ["dev_db_details", "prod_db_details"]
+    _db_fields = ["db_details"]
     template_url = "https://github.com/Ohuru-Tech/drf-cookiecutter"
     app_name: str
     project_name: str
-    dev_db_details: _supported_databases
-    prod_db_details: _supported_databases
+    db_details: _supported_databases
 
     def get_template_configs(self):
         return {
             "template_url": self.template_url,
             "app_name": self.app_name,
             "project_name": self.project_name,
-            "dev_db_url": self.dev_db_details.get_db_url(),
-            "prod_db_url": self.prod_db_details.get_db_url(),
+            "dev_db_url": self.db_details.get_db_url(),
+            "prod_db_url": self.db_details.get_db_url(),
         }
 
 

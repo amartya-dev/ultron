@@ -30,7 +30,11 @@ def get_template_configs(
         raise HTTPException(
             status_code=404, detail="Template not found"
         )
-    return list(TEMPLATE_CONFIGS[template_name].__annotations__.keys())
+    configs = list(
+        TEMPLATE_CONFIGS[template_name].__annotations__.keys()
+    )
+    configs.remove("db_details")
+    return configs
 
 
 @router.get("/backend/templates/{template_name}/databases")
@@ -44,9 +48,11 @@ def get_supported_dbs(
 def get_config_options_for_database(
     db_type: AvailableDatabases,
 ) -> List[str]:
-    return list(
+    configs = list(
         DATABASE_CONFIGS.get(db_type, {}).__annotations__.keys()
     )
+    configs.remove("db_type")
+    return configs
 
 
 @router.post("/backend/templates/{template_name}/create")

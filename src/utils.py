@@ -57,10 +57,9 @@ class BackendUtils:
         )
 
         return str(
-            slugify(
-                os.path.join(
-                    backend_dir, project_configs.get("project_name")
-                )
+            os.path.join(
+                backend_dir,
+                slugify(project_configs.get("project_name")),
             )
         )
 
@@ -96,17 +95,17 @@ class GeneralUtils:
     """
 
     @staticmethod
-    async def generate_zip(
-        frontend_dir: str, backend_dir: str, project_name: str
-    ):
+    async def generate_zip(frontend_dir: str, backend_dir: str):
         # Create a project folder in the temp dir
-        project_folder = create_next_available_folder(project_name)
-        os.chdir(project_folder)
+        project_folder = create_next_available_folder("project")
+        os.chdir(TEMPS_DIR)
         shutil.copytree(
-            backend_dir, os.path.join(project_folder, "backend")
+            backend_dir,
+            os.path.join(project_folder, backend_dir.split("/")[-1]),
         )
         shutil.copytree(
-            frontend_dir, os.path.join(project_folder, "frontend")
+            frontend_dir,
+            os.path.join(project_folder, frontend_dir.split("/")[-1]),
         )
         shutil.make_archive(
             project_folder.split("/")[-1], "zip", project_folder
@@ -116,5 +115,5 @@ class GeneralUtils:
         shutil.rmtree("/".join(backend_dir.split("/")[:-1]))
 
         return os.path.join(
-            project_folder, f"{project_folder.split('/')[-1]}.zip"
+            TEMPS_DIR, f"{project_folder.split('/')[-1]}.zip"
         )
