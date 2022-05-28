@@ -75,6 +75,29 @@ class DjangoTemplate(BaseModel):
         }
 
 
+class ExpressTemplate(BaseModel):
+    _supported_databases = Union[
+        PostgresConfig,
+        MySQLConfig,
+        MariaDBConfig,
+        SQLiteConfig,
+    ]
+    _db_fields = ["db_details"]
+    template_url = "https://github.com/Ohuru-Tech/express-cookiecutter"
+    app_name: str
+    project_name: str
+    db_details: _supported_databases
+
+    def get_template_configs(self):
+        return {
+            "template_url": self.template_url,
+            "app_name": self.app_name,
+            "project_name": self.project_name,
+            "db_url": self.db_details.get_db_url(),
+        }
+
+
 TEMPLATE_CONFIGS = {
     SupportedBackendTemplates.django: DjangoTemplate,
+    SupportedBackendTemplates.express: ExpressTemplate,
 }
