@@ -38,6 +38,12 @@ SUPPORTED_DATABASES = {
         AvailableDatabases.oracle,
         AvailableDatabases.postgres,
     ],
+    SupportedBackendTemplates.express: [
+        AvailableDatabases.mysql,
+        AvailableDatabases.mariadb,
+        AvailableDatabases.sqlite,
+        AvailableDatabases.postgres,
+    ],
     SupportedBackendTemplates.flask: [
         AvailableDatabases.mysql,
         AvailableDatabases.sqlite,
